@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fake Notifications</title>
+</head>
+<body>
+<script>
+function notify(msg) {
+  if (Notification.permission === "granted") {
+    new Notification("Notification", { body: msg });
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        new Notification("Notification", { body: msg });
+      }
+    });
+  }
+}
+
+const messages = [
+  "You got a new message!",
+  "Battery critically low!",
+  "Friend sent a file!",
+  "Update available!"
+];
+
+let i = 0;
+setInterval(() => {
+  notify(messages[i % messages.length]);
+  i++;
+}, 3000); // every 3 seconds
+</script>
+<h2>Open this page to see notifications!</h2>
+</body>
+</html>
